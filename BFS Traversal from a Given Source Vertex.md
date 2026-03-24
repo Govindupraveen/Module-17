@@ -1,110 +1,97 @@
-# Ex. No: 11(A) - Adjacency List Representation of a Graph
+Experiment 11(b): BFS Traversal
 
-## AIM:
-To write a Python program to demonstrate the **adjacency list representation** of the given graph.
+Aim
 
----
+To write a Python program to print the BFS (Breadth-First Search) traversal from a given source vertex in a graph.
 
-## ALGORITHM:
-
-**Step 1**: Start the program.
-
-**Step 2**: Define a class `AdjNode` to create a node for each adjacent vertex:
-- Store the **vertex number**.
-- Store the **link to the next adjacent node**.
-
-**Step 3**: Define a class `Graph` to create the graph using adjacency lists:
-- Initialize the **number of vertices**.
-- Create a **list (array)** of size `V`, where each element is initially `None`.
-
-**Step 4**: Define a method `add_edge(src, dest)` to:
-- Add `dest` to the adjacency list of `src`.
-- Add `src` to the adjacency list of `dest` (for **undirected graphs**).
-
-**Step 5**: Define a method `print_graph()` to:
-- Traverse the adjacency list of each vertex.
-- Print the **vertex** and its **adjacent nodes**.
-
-**Step 6**: In the main program:
-- Create a `Graph` object with `V` vertices.
-- Call `add_edge()` for all desired edges.
-- Call `print_graph()` to display the adjacency list.
-
-**Step 7**: End the program.
-
----
-
-## PYTHON PROGRAM
-
+Algorithm
 ```
-class AdjNode:
-	def __init__(self, data):
-		self.vertex = data
-		self.next = None
+Start the program:
 
+Create a graph using an adjacency list representation.
+Add edges between vertices using the addEdge() function.
+Implement the BFS function:
 
-# A class to represent a graph. A graph
-# is the list of the adjacency lists.
-# Size of the array will be the no. of the
-# vertices "V"
+Initialize all vertices as not visited.
+Use a queue to track the vertices for traversal.
+Mark the starting vertex as visited and enqueue it.
+Dequeue a vertex, process it, and enqueue all its adjacent unvisited vertices while marking them as visited.
+Input:
+
+The user provides the starting vertex for the BFS traversal.
+Perform BFS traversal:
+
+Start from the given source vertex and traverse all reachable vertices using BFS.
+Print the vertices in the BFS order.
+End the program:
+
+The program outputs the order of vertices visited during the BFS traversal.
+```
+Program
+```
+from collections import defaultdict
+
+# This class represents a directed graph
+# using adjacency list representation
 class Graph:
-	def __init__(self, vertices):
-		self.V = vertices
-		self.graph = [None] * self.V
 
-	# Function to add an edge in an undirected graph
-	def add_edge(self, src, dest):
-		# Adding the node to the source node
-		node = AdjNode(dest)
-		node.next = self.graph[src]
-		self.graph[src] = node
+	# Constructor
+	def __init__(self):
 
-		# Adding the source node to the destination as
-		# it is the undirected graph
-		node = AdjNode(src)
-		node.next = self.graph[dest]
-		self.graph[dest] = node
+		# default dictionary to store graph
+		self.graph = defaultdict(list)
 
-	
-	def print_graph(self):
-	    for i in range(V):
-	        print(f"Adjacency list of vertex {i}\n head",end=" ")
-	        temp=self.graph[i]
-	        while temp:
-	            print(f"-> {temp.vertex}",end=" ")
-	            temp=temp.next
-	        print("\n")
-	            
+	# function to add an edge to graph
+	def addEdge(self,u,v):
+		self.graph[u].append(v)
+
+	# Function to print a BFS of graph
+	def BFS(self, s):
+
+		# Mark all the vertices as not visited
+		visited = [False] * (max(self.graph) + 1)
+
+		# Create a queue for BFS
+		queue = []
+
+		# Mark the source node as
+		# visited and enqueue it
+		queue.append(s)
+		visited[s] = True
+
+		while queue:
+		    s=queue.pop(0)
+		    print(s,end=" ")
+		    
+		    for i in self.graph[s]:
+		        if visited[i]==False:
+		            queue.append(i)
+		            visited[i]=True
 		
 		
-		#Write Code here
+		
+		
 
+# Create a graph given in
+# the above diagram
+n=int(input())
+g = Graph()
+g.addEdge(0, 1)
+g.addEdge(0, 2)
+g.addEdge(1, 2)
+g.addEdge(2, 0)
+g.addEdge(2, 3)
+g.addEdge(3, 3)
 
-
-
-
-# Driver program to the above graph class
-if __name__ == "__main__":
-	V = 5
-	graph = Graph(V)
-	graph.add_edge(0, 1)
-	graph.add_edge(0, 4)
-	graph.add_edge(1, 2)
-	graph.add_edge(1, 3)
-	graph.add_edge(1, 4)
-	graph.add_edge(2, 3)
-	graph.add_edge(3, 4)
-
-	graph.print_graph()
-
-
+print ("Following is Breadth First Traversal"
+				" (starting from vertex {})".format(n))
+g.BFS(n)
 ```
 
-## OUTPUT
+OUTPUT
+ ![image](https://github.com/user-attachments/assets/3e381c18-737e-4aaa-931a-9840da808a6b)
 
-![image](https://github.com/user-attachments/assets/c8bb2248-4698-4455-9820-8c8d3e0b2526)
 
-
-## RESULT
+RESULT
 
 Thus the python program was initialised and executed successfully.
